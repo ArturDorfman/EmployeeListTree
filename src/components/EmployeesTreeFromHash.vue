@@ -1,13 +1,14 @@
 <template>
   <ul>
     <li
-      v-for="employee in employeesTree"
+      v-for="employee in employees"
       :key="employee.email"
     >
       <p>{{ employee.firstName }} {{ employee.lastName }}&lt;{{ employee.email }}&gt;</p>
-      <EmployeesTree
-        v-if="employee.subordinates && Object.keys(employee.subordinates).length"
-        :employees-tree="employee.subordinates || {}"
+      <EmployeesTreeFromHash
+        v-if="employeeGroups[employee.email]"
+        :employees="employeeGroups[employee.email]"
+        :employeeGroups="employeeGroups"
       />
     </li>
   </ul>
@@ -17,6 +18,7 @@
 import type { Employee } from '../general-types'
 
 defineProps<{
-  employeesTree: Record<string, Employee>
+  employees: Array<Employee>
+  employeeGroups: Record<string, Employee[]>
 }>()
 </script>
